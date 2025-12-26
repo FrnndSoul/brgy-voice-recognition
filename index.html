@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document Scanner</title>
+  <link rel="stylesheet" href="../styles/base.css">
+</head>
+<body>
+  <div class="container">
+
+  <button id="camera-btn">Open Camera</button>
+  <video id="camera-feed" autoplay playsinline></video>
+  <button id="scan-btn">Scan Document</button>
+  <div id="scan-status">Waiting for document</div>
+
+
+    <div id="scan-status" class="scan-status">Waiting for document</div>
+
+    <div class="result">
+      <div><strong>Document:</strong> <span id="doc-type">-</span></div>
+      <div><strong>Name:</strong> <span id="doc-name">-</span></div>
+      <div><strong>Address:</strong> <span id="doc-address">-</span></div>
+      <div><strong>Expires:</strong> <span id="doc-exp">-</span></div>
+    </div>
+
+  </div>
+
+  <script src="scripts/camera.js"></script>
+  <script src="scripts/scanner.js"></script>
+</body>
+</html>
