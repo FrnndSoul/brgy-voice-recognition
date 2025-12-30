@@ -5,7 +5,6 @@ const typeEl = document.getElementById("doc-type")
 const nameEl = document.getElementById("doc-name")
 const addressEl = document.getElementById("doc-address")
 const expEl = document.getElementById("doc-exp")
-
 scanBtn.addEventListener("click", async () => {
   if (!stream || cameraFeed.videoWidth === 0) return
 
@@ -19,7 +18,7 @@ scanBtn.addEventListener("click", async () => {
   const image = canvas.toDataURL("image/jpeg")
 
   try {
-    const res = await fetch("http://localhost:3000/scan", {
+    const res = await fetch("https://backend-production-79ea.up.railway.app/scan", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ image })

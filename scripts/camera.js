@@ -9,6 +9,7 @@ cameraBtn.addEventListener("click", async () => {
     stream = null
     cameraFeed.style.display = "none"
     cameraBtn.textContent = "Open Camera"
+    cameraFeed.classList.add("active")
     return
   }
 
@@ -17,6 +18,7 @@ cameraBtn.addEventListener("click", async () => {
     cameraFeed.srcObject = stream
     cameraFeed.style.display = "block"
     cameraBtn.textContent = "Close Camera"
+    cameraFeed.classList.remove("active")
   } catch {
     alert("Camera unavailable")
   }

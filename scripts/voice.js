@@ -23,35 +23,41 @@ listenBtn.addEventListener("click", async () => {
     const reader = new FileReader()
 
     reader.onloadend = async () => {
-      const audio = reader.result.split(",")[1]
+      try {
 
-      const stt = await fetch("http://localhost:3000/stt", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ audio })
-      })
+        const audio = reader.result.split(",")[1]
 
-      const { text } = await stt.json()
+        const stt = await fetch("https://backend-production-79ea.up.railway.app/stt", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ audio })
+        })
 
-      const current = {
-        document_type: document.getElementById("doc-type").textContent,
-        full_name: document.getElementById("doc-name").textContent,
-        address: document.getElementById("doc-address").textContent,
-        expiration_date: document.getElementById("doc-exp").textContent
+        const { text } = await stt.json()
+
+        const current = {
+          document_type: document.getElementById("doc-type").textContent,
+          full_name: document.getElementById("doc-name").textContent,
+          address: document.getElementById("doc-address").textContent,
+          expiration_date: document.getElementById("doc-exp").textContent
+        }
+
+        const fix = await fetch("https://backend-production-79ea.up.railway.app/correct", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ transcript: text, current })
+        })
+
+        const { result } = await fix.json()
+
+        if (result.document_type) document.getElementById("doc-type").textContent = result.document_type
+        if (result.full_name) document.getElementById("doc-name").textContent = result.full_name
+        if (result.address) document.getElementById("doc-address").textContent = result.address
+        if (result.expiration_date) document.getElementById("doc-exp").textContent = result.expiration_date
+      } catch (err) {
+        console.error(err)
       }
 
-      const fix = await fetch("http://localhost:3000/correct", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ transcript: text, current })
-      })
-
-      const { result } = await fix.json()
-
-      if (result.document_type) document.getElementById("doc-type").textContent = result.document_type
-      if (result.full_name) document.getElementById("doc-name").textContent = result.full_name
-      if (result.address) document.getElementById("doc-address").textContent = result.address
-      if (result.expiration_date) document.getElementById("doc-exp").textContent = result.expiration_date
     }
 
     reader.readAsDataURL(blob)
